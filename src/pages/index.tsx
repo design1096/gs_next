@@ -1,19 +1,54 @@
 import Head from "next/head";
-import Image from "next/image";
-import { Geist, Geist_Mono } from "next/font/google";
-import styles from "@/styles/Home.module.css";
+import Header from "@/components/Header";
+import styles from "../styles/style.module.css";
+import Timeline from "@/components/Timeline";
+import Post from "@/components/Post";
+import Button from "@/components/Button";
+import { useEffect, useState } from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// DBから取得しているダミーデータ
+const dummyData: any = [
+  {
+    id: 1,
+    name: "山田 太郎",
+    date: "2024-02-01",
+    content: "今日はReactの勉強をしました！",
+  },
+  {
+    id: 2,
+    name: "佐藤 花子",
+    date: "2024-02-02",
+    content: "新しいプロジェクトが始まりました。",
+  },
+  {
+    id: 3,
+    name: "鈴木 一郎",
+    date: "2024-02-03",
+    content: "Next.jsのSSRを試しています。",
+  },
+  {
+    id: 4,
+    name: "田中 桃子",
+    date: "2024-02-04",
+    content: "UIデザインの改善を行いました。",
+  },
+  {
+    id: 5,
+    name: "中村 健",
+    date: "2024-02-05",
+    content: "TypeScriptの型安全性について学習中。",
+  },
+];
 
 export default function Home() {
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    setPosts(dummyData);
+  }, []);
+
+  console.log(posts, "データ");
+
   return (
     <>
       <Head>
@@ -22,96 +57,24 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div
-        className={`${styles.page} ${geistSans.variable} ${geistMono.variable}`}
-      >
-        <main className={styles.main}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js logo"
-            width={180}
-            height={38}
-            priority
-          />
-          <ol>
-            <li>
-              Get started by editing <code>src/pages/index.tsx</code>.
-            </li>
-            <li>Save and see your changes instantly.</li>
-          </ol>
+      <main className={styles.container}>
+        <Header />
+        <Timeline />
 
-          <div className={styles.ctas}>
-            <a
-              className={styles.primary}
-              href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <Image
-                className={styles.logo}
-                src="/vercel.svg"
-                alt="Vercel logomark"
-                width={20}
-                height={20}
-              />
-              Deploy now
-            </a>
-            <a
-              href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.secondary}
-            >
-              Read our docs
-            </a>
-          </div>
-        </main>
-        <footer className={styles.footer}>
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/file.svg"
-              alt="File icon"
-              width={16}
-              height={16}
-            />
-            Learn
-          </a>
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/window.svg"
-              alt="Window icon"
-              width={16}
-              height={16}
-            />
-            Examples
-          </a>
-          <a
-            href="https://nextjs.org?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              aria-hidden
-              src="/globe.svg"
-              alt="Globe icon"
-              width={16}
-              height={16}
-            />
-            Go to nextjs.org →
-          </a>
-        </footer>
-      </div>
+        {/* ボタン */}
+        {/* <Button textColor='white' bg='pink' /> */}
+
+        {/* ポスト */}
+        {posts.map((item, index) => (
+           <Post 
+            key={index}
+            id={item.id}
+            name={item.name}
+            date={item.date} 
+            content={item.content}
+          />
+        ))}
+      </main>
     </>
   );
 }
